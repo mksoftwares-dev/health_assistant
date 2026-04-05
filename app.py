@@ -816,12 +816,26 @@ else:
 
     st.sidebar.markdown("<br>", unsafe_allow_html=True)
 
+    # page = st.sidebar.radio(
+    #     "Navigation",
+    #     ["📊 Dashboard", "🗂️ Manual Form", "🤖 Chatbot", "📋 History", "👤 Profile", "ℹ️ About"],
+    #     label_visibility="hidden"
+    # )
+
+    # 🌟 ADMIN ACCESS LOGIC ========================🌟
+    # User per 'admin' (small letters) nu iruntha Admin panel add aagum
+    pages_list = ["📊 Dashboard", "🗂️ Manual Form", "🤖 Chatbot", "📋 History", "👤 Profile", "ℹ️ About"]
+    
+    if user['username'].lower() == "admin":
+        pages_list.append("🛡️ Admin Panel")
+
     page = st.sidebar.radio(
         "Navigation",
-        ["📊 Dashboard", "🗂️ Manual Form", "🤖 Chatbot", "📋 History", "👤 Profile", "ℹ️ About"],
+        pages_list,
         label_visibility="hidden"
     )
-
+    # 🌟 ADMIN ACCESS LOGIC ========================🌟
+    
     st.sidebar.markdown("---")
     if st.sidebar.button("🚪 Logout", use_container_width=True):
         logout()
@@ -1389,3 +1403,73 @@ else:
 
         st.markdown("<br>", unsafe_allow_html=True)
         st.caption("Developed as part of Final Year Project | Python & Machine Learning")
+
+   # ══════════════════════════════════════════════════════
+    # ADMIN PANEL
+    # ══════════════════════════════════════════════════════
+    elif page == "🛡️ Admin Panel":
+        st.title("🛡️ Admin Dashboard")
+        st.markdown("<p style='color:#64748B;'>Manage users and monitor overall app activity.</p>", unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # Connect to DB to fetch all data
+        conn = sqlite3.connect("history.db")
+        # Fetch Users (Excluding password for security)
+        users_df = pd.read_sql_query("SELECT id, username, email, age, gender, created_at FROM users", conn)
+        # Fetch All History
+        all_history_df = pd.read_sql_query("SELECT * FROM history ORDER BY id DESC", conn)
+        conn.close()
+
+        col1, col2 = st.columns(2)
+        col1.metric("👥 Total Registered Users", len(users_df))
+        col2.metric("📋 Total Assessments Done", len(all_history_df))
+
+        st.markdown("---")
+
+        tab_users, tab_history = st.tabs(["👥 Manage Users", "📈 App Activity"])
+
+        with tab_users:
+            st.subheader("All Registered Users")
+            st.dataframe(users_df, use_container_width=True, hide_index=True)
+
+            st.markdown("<br>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.subheader("🗑️ Delete a User")
+                st.warning("Warning: Deleting a user will remove their account permanently.")
+                
+                # Create a list of users for the dropdown (ID - Username)
+                user_options = users_df.apply(lambda row: f"{row['id']} - {row['username']}", axis=1).tolist()
+                
+                selected_user_to_delete = st.selectbox("Select User to Delete:", ["Select a user..."] + user_options)
+                
+                if st.button("Delete User", type="primary"):
+                    if selected_user_to_delete == "Select a user...":
+                        st.error("Please select a valid user.")
+                    else:
+                        # Extract the ID from the selected string (e.g., "5 - muthu" -> 5)
+                        del_user_id = int(selected_user_to_delete.split(" - ")[0])
+                        
+                        if del_user_id == user["id"]:
+                            st.error("❌ You cannot delete your own Admin account!")
+                        else:
+                            # Delete user
+                            delete_user(del_user_id)
+                            # Also delete their history
+                            conn = sqlite3.connect("history.db")
+                            conn.execute("DELETE FROM history WHERE user_id=?", (del_user_id,))
+                            conn.commit()
+                            conn.close()
+                            
+                            st.success(f"✅ User ID {del_user_id} has been deleted successfully.")
+                            st.rerun()
+
+        with tab_history:
+            st.subheader("Global Assessment History")
+            if all_history_df.empty:
+                st.info("No assessments have been made yet.")
+            else:
+                st.dataframe(
+                    all_history_df[["id", "user_id", "timestamp", "method", "prediction", "confidence", "symptoms"]], 
+                    use_container_width=True, 
+                    hide_index=True
+                )
