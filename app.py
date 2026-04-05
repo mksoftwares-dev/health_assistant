@@ -299,6 +299,7 @@ st.markdown("""
 <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+    [data-testid="stToolbar"] { display: none !important; }
 
     [data-testid="stSidebar"] {
         background-color: rgba(255, 255, 255, 0.7) !important;
