@@ -433,10 +433,10 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     
-    /* 🔥 RIGHT SIDE ICONS HIDING (UPDATED) 🔥 */
-    [data-testid="stToolbar"] { display: none !important; }
-    [data-testid="stHeaderActionElements"] { display: none !important; }
-    .stAppDeployButton { display: none !important; }
+    # /* 🔥 RIGHT SIDE ICONS HIDING (UPDATED) 🔥 */
+    # [data-testid="stToolbar"] { display: none !important; }
+    # [data-testid="stHeaderActionElements"] { display: none !important; }
+    # .stAppDeployButton { display: none !important; }
 
     [data-testid="stSidebar"] {
         background-color: rgba(255, 255, 255, 0.7) !important;
