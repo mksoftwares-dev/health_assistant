@@ -41,122 +41,13 @@ def get_base64_of_bin_file(bin_file):
         return base64.b64encode(data).decode()
     return ""
 
-# # ── Full Screen Intro Video Loading (OVERLAY METHOD) ─────
-# if "splash_shown" not in st.session_state:
-#     st.session_state.splash_shown = False
-
-# if not st.session_state.splash_shown:
-#     video_base64 = get_base64_of_bin_file("video/intro.mp4")
-#     video_html = f'<source src="data:video/mp4;base64,{video_base64}" type="video/mp4">' if video_base64 else '<source src="https://cdn.pixabay.com/video/2020/05/21/40003-424696001_large.mp4" type="video/mp4">'
-
-#     components.html(
-#         f"""
-#         <script>
-#             const doc = window.parent.document;
-            
-#             if (!doc.getElementById("custom-intro-screen")) {{
-#                 const splash = doc.createElement("div");
-#                 splash.id = "custom-intro-screen";
-#                 splash.innerHTML = `
-#                     <style>
-#                         #custom-intro-screen {{
-#                             position: fixed; top: 0; left: 0;
-#                             width: 100vw; height: 100vh; z-index: 9999999;
-#                             background-color: #000; font-family: 'Segoe UI', Tahoma, sans-serif;
-#                             display: flex; flex-direction: column; justify-content: center; align-items: center;
-#                         }}
-                        
-#                         /* DESKTOP DEFAULT SETTINGS */
-#                         #introVideo {{ 
-#                             position: absolute; top: 0; left: 0;
-#                             width: 100%; height: 100%; 
-#                             object-fit: contain; 
-#                             background-color: #000;
-#                             z-index: 1;
-#                         }}
-#                         .overlay {{
-#                             position: absolute; top: 0; left: 0;
-#                             width: 100%; height: 100%; 
-#                             background: rgba(0, 0, 0, 0.4); 
-#                             display: flex; justify-content: center; /* Exactly in the MIDDLE */
-#                             align-items: center; flex-direction: column; color: white;
-#                             z-index: 2;
-#                         }}
-                        
-#                         .loading-box {{ text-align: center; width: 80%; max-width: 400px; }}
-#                         .loading-box h2 {{ font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; }}
-#                         .progress-container {{ width: 100%; height: 6px; background: rgba(255, 255, 255, 0.2); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }}
-#                         .progress-bar {{ width: 0%; height: 100%; background: linear-gradient(90deg, #00dbde, #fc00ff); box-shadow: 0 0 15px #00dbde; transition: width 0.05s linear; }}
-#                         #percentText {{ font-size: 1.2rem; font-weight: bold; }}
-                        
-#                         /* MOBILE RESPONSIVE FIXES */
-#                         @media (max-width: 768px) {{
-#                             #introVideo {{
-#                                 position: relative; /* Stacks normally */
-#                                 height: auto;
-#                                 max-height: 45vh; /* Gives room for the loading bar below */
-#                             }}
-#                             .overlay {{
-#                                 position: relative; /* Stacks below the video */
-#                                 height: auto;
-#                                 background: transparent; /* No dim shading */
-#                                 margin-top: 30px; /* Exact space below the video */
-#                             }}
-#                         }}
-#                     </style>
-                    
-#                     <video autoplay muted playsinline loop id="introVideo">
-#                         {video_html}
-#                     </video>
-
-#                     <div class="overlay">
-#                         <div class="loading-box">
-#                             <h2>Launching</h2>
-#                             <div class="progress-container">
-#                                 <div class="progress-bar" id="progressBar"></div>
-#                             </div>
-#                             <div id="percentText">0%</div>
-#                         </div>
-#                     </div>
-#                 `;
-#                 doc.body.appendChild(splash);
-
-#                 let progressBar = doc.getElementById("progressBar");
-#                 let percentText = doc.getElementById("percentText");
-#                 let width = 0;
-#                 let speed = 40; 
-
-#                 let interval = setInterval(() => {{
-#                     if (width >= 100) {{
-#                         clearInterval(interval);
-#                         splash.style.transition = "opacity 0.5s ease";
-#                         splash.style.opacity = "0";
-#                         setTimeout(() => splash.remove(), 500);
-#                     }} else {{
-#                         width++;
-#                         progressBar.style.width = width + "%";
-#                         percentText.innerHTML = width + "%";
-#                     }}
-#                 }}, speed);
-#             }}
-#         </script>
-#         """,
-#         height=0
-#     )
-    
-#     st.session_state.splash_shown = True
-
-# ── Full Screen Intro Video Loading (SMOOTH HTML METHOD) ─────
+# ── Full Screen Intro Video Loading (OVERLAY METHOD) ─────
 if "splash_shown" not in st.session_state:
     st.session_state.splash_shown = False
 
 if not st.session_state.splash_shown:
-    # Use direct local path for better performance in Streamlit Cloud
-    video_path = "video/intro.mp4" 
-    
-    # If the file doesn't exist, fallback to the URL
-    if not os.path.exists(video_path):
-        video_path = "https://cdn.pixabay.com/video/2020/05/21/40003-424696001_large.mp4"
+    video_base64 = get_base64_of_bin_file("video/intro.mp4")
+    video_html = f'<source src="data:video/mp4;base64,{video_base64}" type="video/mp4">' if video_base64 else '<source src="https://cdn.pixabay.com/video/2020/05/21/40003-424696001_large.mp4" type="video/mp4">'
 
     components.html(
         f"""
@@ -182,18 +73,14 @@ if not st.session_state.splash_shown:
                             object-fit: contain; 
                             background-color: #000;
                             z-index: 1;
-                            opacity: 0; /* Start hidden for smooth fade in */
-                            transition: opacity 1s ease-in-out;
                         }}
                         .overlay {{
                             position: absolute; top: 0; left: 0;
                             width: 100%; height: 100%; 
                             background: rgba(0, 0, 0, 0.4); 
-                            display: flex; justify-content: center;
+                            display: flex; justify-content: center; /* Exactly in the MIDDLE */
                             align-items: center; flex-direction: column; color: white;
                             z-index: 2;
-                            opacity: 0; /* Start hidden */
-                            transition: opacity 0.5s ease-in-out;
                         }}
                         
                         .loading-box {{ text-align: center; width: 80%; max-width: 400px; }}
@@ -205,24 +92,24 @@ if not st.session_state.splash_shown:
                         /* MOBILE RESPONSIVE FIXES */
                         @media (max-width: 768px) {{
                             #introVideo {{
-                                position: relative;
+                                position: relative; /* Stacks normally */
                                 height: auto;
-                                max-height: 45vh;
+                                max-height: 45vh; /* Gives room for the loading bar below */
                             }}
                             .overlay {{
-                                position: relative;
+                                position: relative; /* Stacks below the video */
                                 height: auto;
-                                background: transparent;
-                                margin-top: 30px;
+                                background: transparent; /* No dim shading */
+                                margin-top: 30px; /* Exact space below the video */
                             }}
                         }}
                     </style>
                     
-                    <video autoplay muted playsinline id="introVideo">
-                        <source src="{video_path}" type="video/mp4">
+                    <video autoplay muted playsinline loop id="introVideo">
+                        {video_html}
                     </video>
 
-                    <div class="overlay" id="loadingOverlay">
+                    <div class="overlay">
                         <div class="loading-box">
                             <h2>Launching</h2>
                             <div class="progress-container">
@@ -234,19 +121,6 @@ if not st.session_state.splash_shown:
                 `;
                 doc.body.appendChild(splash);
 
-                const videoElement = doc.getElementById("introVideo");
-                const overlayElement = doc.getElementById("loadingOverlay");
-                
-                // Fade in video when enough data is loaded to play smoothly
-                videoElement.addEventListener('canplay', () => {{
-                     videoElement.style.opacity = "1";
-                     
-                     // Show loading overlay shortly after video starts
-                     setTimeout(() => {{
-                         overlayElement.style.opacity = "1";
-                     }}, 500);
-                }});
-
                 let progressBar = doc.getElementById("progressBar");
                 let percentText = doc.getElementById("percentText");
                 let width = 0;
@@ -255,9 +129,9 @@ if not st.session_state.splash_shown:
                 let interval = setInterval(() => {{
                     if (width >= 100) {{
                         clearInterval(interval);
-                        splash.style.transition = "opacity 0.8s ease-out"; /* Smoother fade out */
+                        splash.style.transition = "opacity 0.5s ease";
                         splash.style.opacity = "0";
-                        setTimeout(() => splash.remove(), 800);
+                        setTimeout(() => splash.remove(), 500);
                     }} else {{
                         width++;
                         progressBar.style.width = width + "%";
@@ -271,6 +145,8 @@ if not st.session_state.splash_shown:
     )
     
     st.session_state.splash_shown = True
+
+
 
 # ── Mouse Cursor Sparkle Effect (Mobile Touch Added!) ────
 components.html(
