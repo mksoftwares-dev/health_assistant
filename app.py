@@ -294,145 +294,11 @@ components.html(
 # </style>
 # """, unsafe_allow_html=True)
 
-# # ── General CSS (Mobile Responsive Added) ────────────────
-# st.markdown("""
-# <style>
-#     #MainMenu {visibility: hidden;}
-#     footer {visibility: hidden;}
-#     [data-testid="stToolbar"] { display: none !important; }
-
-#     [data-testid="stSidebar"] {
-#         background-color: rgba(255, 255, 255, 0.7) !important;
-#         backdrop-filter: blur(10px);
-#         border-right: 1px solid rgba(0,0,0,0.05);
-#     }
-    
-#     header[data-testid="stHeader"] {
-#         background: transparent !important;
-#     }
-
-#     /* 📱 MOBILE: Hamburger menu-va perusa Teal color box-la theliva kaatta */
-#     header[data-testid="stHeader"] button {
-#         background-color: #008080 !important;
-#         border-radius: 8px !important;
-#         padding: 4px !important;
-#         margin: 10px !important;
-#         box-shadow: 0px 4px 6px rgba(0,0,0,0.3) !important;
-#     }
-#     header[data-testid="stHeader"] button svg {
-#         fill: #ffffff !important;
-#         color: #ffffff !important;
-#         width: 28px !important;
-#         height: 28px !important;
-#     }
-
-#     /* 💻 DESKTOP: Pazhaya '>' symbol-a thookitu puthusa '☰' symbol poda */
-#     [data-testid="collapsedControl"] {
-#         background-color: #008080 !important;
-#         border-radius: 8px !important;
-#         margin: 15px !important;
-#         box-shadow: 0px 4px 6px rgba(0,0,0,0.3) !important;
-#         transition: all 0.3s ease;
-#     }
-#     [data-testid="collapsedControl"]:hover {
-#         transform: scale(1.05);
-#         background-color: #006666 !important;
-#     }
-#     [data-testid="collapsedControl"] svg {
-#         display: none !important; /* Pazhaya symbol-a maraikirathu */
-#     }
-#     [data-testid="collapsedControl"]::after {
-#         content: '☰' !important; /* Puthu 3-dash symbol */
-#         font-size: 24px !important;
-#         color: #ffffff !important;
-#         font-weight: bold !important;
-#         line-height: 1 !important;
-#         display: flex !important;
-#         justify-content: center !important;
-#         align-items: center !important;
-#         padding: 6px 10px !important;
-#     }
-
-#     .stButton>button {
-#         border-radius: 8px;
-#         transition: all 0.3s ease;
-#         border: 1px solid transparent;
-#         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-#         font-weight: 600;
-#         width: 100%; 
-#     }
-#     .stButton>button:hover {
-#         transform: translateY(-2px);
-#         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-#         border: 1px solid #008080;
-#         color: #008080;
-#     }
-    
-#     .stButton>button[kind="primary"] {
-#         background-color: #008080;
-#         color: white;
-#     }
-#     .stButton>button[kind="primary"]:hover {
-#         background-color: #006666;
-#         color: white;
-#     }
-
-#     div[data-testid="metric-container"] {
-#         background-color: #FFFFFF;
-#         border: 1px solid #E2E8F0;
-#         padding: 15px 20px;
-#         border-radius: 12px;
-#         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-#         transition: transform 0.2s ease-in-out;
-#     }
-#     div[data-testid="metric-container"]:hover {
-#         transform: scale(1.02);
-#         border-color: #008080;
-#     }
-
-#     div[data-testid="stVerticalBlockBorderWrapper"] {
-#         background-color: #FFFFFF;
-#         border-radius: 12px;
-#         border: 1px solid rgba(0,0,0,0.05);
-#         box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-#     }
-
-#     .stTabs [data-baseweb="tab-list"] {
-#         gap: 15px;
-#         background-color: transparent;
-#     }
-#     .stTabs [data-baseweb="tab"] {
-#         border-radius: 6px 6px 0px 0px;
-#         padding: 10px 20px;
-#         font-weight: 600;
-#         background-color: rgba(255, 255, 255, 0.9);
-#     }
-    
-#     .streamlit-expanderHeader {
-#         background-color: #FFFFFF;
-#         border-radius: 8px;
-#         border: 1px solid #E2E8F0;
-#     }
-
-#     @media (max-width: 768px) {
-#         div[data-testid="stVerticalBlockBorderWrapper"] { padding: 10px !important; }
-#         .stTabs [data-baseweb="tab"] { padding: 8px 12px; font-size: 14px; }
-#         [data-testid="stMetricValue"] { font-size: 1.5rem !important; }
-#         .chat-bubble { max-width: 85% !important; font-size: 14px !important; }
-#         h1 { font-size: 1.8rem !important; }
-#         h2 { font-size: 1.5rem !important; }
-#         h3 { font-size: 1.2rem !important; }
-#     }
-# </style>
-# """, unsafe_allow_html=True)
-
 # ── General CSS (Mobile Responsive Added) ────────────────
 st.markdown("""
 <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    
-    /* 1. Right side la irukka thevayillatha icons-a (Share, Star, GitHub) maraikkum */
     [data-testid="stToolbar"] { display: none !important; }
 
     [data-testid="stSidebar"] {
@@ -445,28 +311,46 @@ st.markdown("""
         background: transparent !important;
     }
 
-    /* 2. Left side Menu (Hamburger) Button-a theliva Teal color box-la kaatta */
+    /* 📱 MOBILE: Hamburger menu-va perusa Teal color box-la theliva kaatta */
+    header[data-testid="stHeader"] button {
+        background-color: #008080 !important;
+        border-radius: 8px !important;
+        padding: 4px !important;
+        margin: 10px !important;
+        box-shadow: 0px 4px 6px rgba(0,0,0,0.3) !important;
+    }
+    header[data-testid="stHeader"] button svg {
+        fill: #ffffff !important;
+        color: #ffffff !important;
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    /* 💻 DESKTOP: Pazhaya '>' symbol-a thookitu puthusa '☰' symbol poda */
     [data-testid="collapsedControl"] {
-        display: inline-flex !important;
         background-color: #008080 !important;
         border-radius: 8px !important;
         margin: 15px !important;
-        padding: 5px !important;
         box-shadow: 0px 4px 6px rgba(0,0,0,0.3) !important;
-        z-index: 99999 !important;
+        transition: all 0.3s ease;
     }
-    
-    /* Hover effect for Menu button */
     [data-testid="collapsedControl"]:hover {
+        transform: scale(1.05);
         background-color: #006666 !important;
     }
-
-    /* Native SVG Icon-a White color-ku maathurathu */
     [data-testid="collapsedControl"] svg {
+        display: none !important; /* Pazhaya symbol-a maraikirathu */
+    }
+    [data-testid="collapsedControl"]::after {
+        content: '☰' !important; /* Puthu 3-dash symbol */
+        font-size: 24px !important;
         color: #ffffff !important;
-        fill: #ffffff !important;
-        width: 28px !important;
-        height: 28px !important;
+        font-weight: bold !important;
+        line-height: 1 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 6px 10px !important;
     }
 
     .stButton>button {
@@ -541,6 +425,8 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+
 
 # ── Load model & symptoms ─────────────────────────────────
 @st.cache_resource
